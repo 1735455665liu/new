@@ -21,4 +21,7 @@ Route::get('test','Test\TestController@test');
 Route::get('nocrypt','Test\TestController@nocrypt');
 Route::get('nosign','Test\TestController@nosign');
 Route::get('reg','Test\TestController@reg');
+Route::post('regdo','Test\TestController@regdo');
 Route::get('login','Test\TestController@login');
+Route::post('logindo','Test\TestController@logindo');
+

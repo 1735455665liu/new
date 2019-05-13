@@ -9,7 +9,8 @@
 </head>
 <body>
 <h1>登录</h1>
-<form action="" method="post">
+<form method="post" action="logindo">
+    @csrf
     用户名<input type="text" name="name"><br>
     密码<input type="password" name="pass"><br>
     邮箱<input type="text" name="email"><br>

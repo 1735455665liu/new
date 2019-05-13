@@ -135,6 +135,10 @@ class TestController extends Controller
 
     //注册
     public function reg(Request $request){
+        return view('reg');
+    }
+
+    public function regdo(Request $request){
         $data=$request->all();
         $arr=[
           'name'=>$data['name'],
@@ -163,15 +167,39 @@ class TestController extends Controller
         }
         //结束会话
         curl_close($ch);
-        return view('reg');
+
     }
 
 
     //登录
-    public function login(Request $request){
-        $data=$request->all();
-//        var_dump($data);
+    public function login(){
         return view('login');
+    }
+    public function logindo(Request $request){
+        $data=$request->all();
+        $arr=[
+            'name'=>$data['name'],
+            'pass'=>$data['pass'],
+            'email'=>$data['email'],
+        ];
+        $json=json_encode($arr,JSON_UNESCAPED_UNICODE);
+        //非对称加密
+        $private=openssl_pkey_get_private('file://'.storage_path('openssl/private.pem'));
+        openssl_private_encrypt($json,$value,$private);
+//        echo '<pre>';print_r($value);echo'<pre>';
+        $base=base64_encode($value);
+        $url='http://api.1809a.com/logindo';
+        $ch=curl_init();
+        curl_setopt($ch,CURLOPT_URL,$url);
+        curl_setopt($ch,CURLOPT_POSTFIELDS,$base);
+        curl_setopt($ch,CURLOPT_HTTPHEADER,['Content-Type:text/plian']);
+        //发送
+        curl_exec($ch);
+        $error=curl_errno($ch);
+        if($error>0){
+            echo '状态码为'.$error;
+            exit;
+        }
     }
 
 
